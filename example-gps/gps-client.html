@@ -2,14 +2,48 @@
 <html>
     <head>
         <title>Haskell WebSockets example</title>
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+        <meta charset="utf-8">
+        <style>
+            html, body, #main, #map-canvas {
+                margin: 0;
+                padding: 0;
+                height: 100%;
+            }
+        </style>
         <script type="text/JavaScript"
             src="http://code.jquery.com/jquery-1.6.3.min.js"></script>
+        <script 
+            src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&language=ja">
+        </script>
         <script type="text/JavaScript" src="gps-client.js"></script>
-        <link rel="stylesheet" type="text/css" href="screen.css" />
+        <script>
+            var map;
+            function initialize() {
+                var center = new google.maps.LatLng(35.694726, 139.742832);
+
+                var mapOptions = {
+                    zoom: 14,
+                    center: center,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                };
+                map = new google.maps.Map(document.getElementById('map-canvas'),
+                    mapOptions);
+
+                initializeWebSocket(map);
+            }
+
+            google.maps.event.addDomListener(window, 'load', initialize);
+
+        </script>
+        <!--<link rel="stylesheet" type="text/css" href="screen.css" />-->
     </head>
     <body>
         <h1>Haskell WebSockets example</h1>
+        <div id="what"></div>
         <div id="main">
+            <div id="map-canvas" />
+            <!--
             <div id="warnings">
             </div>
             <div id="join-section">
@@ -38,6 +72,8 @@
         </div>
         <div id="footer">
             Source code available <a href="http://github.com/jaspervdj/websockets/tree/master/example">here</a>
+        </div>
+            -->
         </div>
     </body>
 </html>

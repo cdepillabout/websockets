@@ -10,14 +10,36 @@ function createWebSocket(path) {
 var users = [];
 
 
-function onMessage(event) {
+function onMessage(websocket, map, event) {
+    var locationString = event.data;
+    var temp = locationString.split(" ");
+    var latString = temp[0];
+    var lonString = temp[1];
+    var latLon = new google.maps.LatLng(latString, lonString);
+
+    /*
     var p = $(document.createElement('p')).text(event.data);
 
     $('#messages').append(p);
     $('#messages').animate({scrollTop: $('#messages')[0].scrollHeight});
+    */
+    var marker = new google.maps.Marker({
+        position: latLon,
+        map: map,
+        title: 'Hello World!',
+        animation: google.maps.Animation.DROP,
+    });
+
+    var deleteMarkerFunc = (function () 
+        {
+            marker.setMap(null);
+        });
+
+    setTimeout(deleteMarkerFunc, 1000);
 }
 
 $(document).ready(function () {
+    /*
     $('#join-form').submit(function () {
         $('#warnings').html('');
         var user = $('#user').val();
@@ -35,4 +57,13 @@ $(document).ready(function () {
 
         return false;
     });
+    */
 });
+
+
+function initializeWebSocket (map) {
+    var websocket = createWebSocket('/');
+    websocket.onmessage = function(event) {
+        onMessage(websocket, map, event);
+    };
+}

@@ -47,6 +47,8 @@ spamreal rq = do
 
 spam :: WS.TextProtocol p => WS.WebSockets p ()
 spam = do
+    liftIO $ putStrLn "Connected"
     forever $ do
-        liftIO $ threadDelay $ 1000000
-        WS.sendTextData ("100 100" :: Text)
+        liftIO $ threadDelay $ 5000000
+        liftIO $ putStrLn "Sending 35.694726 139.742832"
+        WS.sendTextData ("35.694726 139.742832" :: Text)
